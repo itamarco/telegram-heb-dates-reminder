@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "heb-dates-reminder"
+version = "0.1.0"
+description = ""
+authors = ["itamarco <itc404@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "heb_dates_reminder" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pytelegrambotapi = "^4.11.0"
+pyluach = "^2.2.0"
+sqlalchemy = "^2.0.10"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.3.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
