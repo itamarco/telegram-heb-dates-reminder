@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 from telebot.types import Message
 
-from message_patterns import is_date_msg
+from text_patterns import is_date_msg
 
 
 class MessagePatterns(unittest.TestCase):
@@ -22,9 +22,7 @@ class MessagePatterns(unittest.TestCase):
 
         for input, expected in test_cases:
             with self.subTest(input=input, expected=expected):
-                msg = Mock()
-                msg.text = input
-                result = is_date_msg(msg)
+                result = is_date_msg(input)
                 self.assertEqual(expected, result, msg=f"Bad response for input {input}")
 
 
