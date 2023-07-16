@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Date
+from sqlalchemy import create_engine, Column, Integer, String, Date, Boolean
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -20,6 +20,17 @@ class Reminder(Base):
     eventYear = Column(Integer)
     reminderDays = Column(Integer)
     nextReminder = Column(Date)
+    repeat = Column(Boolean, default=True)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.userId,
+            'reminder_days': self.reminderDays,
+            'heb_date': f"{self.eventDay}-{self.eventMonth}-{self.eventYear}",
+            'description': self.description,
+            'next_reminder': f"{self.nextReminder.day}/{self.nextReminder.month}/{self.nextReminder.year}",
+        }
 
     def __repr__(self):
         return f"<Reminder(id={self.id}, userId={self.userId}, description='{self.description}', \

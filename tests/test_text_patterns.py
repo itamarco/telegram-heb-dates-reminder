@@ -1,8 +1,4 @@
 import unittest
-from mailbox import Message
-from unittest.mock import Mock
-
-from telebot.types import Message
 
 from text_patterns import is_date_msg
 

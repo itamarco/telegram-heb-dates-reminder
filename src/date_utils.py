@@ -1,5 +1,4 @@
 # Custom mapping function for Hebrew alphabet characters
-from pyluach import dates
 from pyluach.dates import HebrewDate
 
 

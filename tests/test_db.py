@@ -2,7 +2,6 @@ import unittest
 from datetime import date
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
 from src.models.reminder import Reminder, ReminderDAO, Base
 
 
@@ -10,7 +9,7 @@ class TestReminderDAO(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Initialize the database
-        cls.engine = create_engine('sqlite:///reminders.db')
+        cls.engine = create_engine('sqlite:///:memory:')
         cls.Session = sessionmaker(bind=cls.engine)
         Base.metadata.create_all(cls.engine)
 
