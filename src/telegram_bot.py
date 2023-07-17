@@ -1,10 +1,10 @@
+import os
+
 import telebot
 
 from app import OP, parse_input
-from date_utils import heb_date_str_to_hebrew_date
-from text_patterns import is_date_msg
 
-TELEGRAM_TOKEN = '5029905616:AAFsTd-gIiLF_f0IqftNgENqkfqF4d9xwGM'
+TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN, parse_mode=None)
 

@@ -1,3 +1,5 @@
 .idea
 **/*.db
+.venv
 .pytest_cache
+.env
