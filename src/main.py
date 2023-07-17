@@ -16,7 +16,7 @@ def root():
 
 
 # Process webhook calls
-@app.post(f'telegram-hook/{TELEGRAM_TOKEN}/')
+@app.post(f'/telegram-hook/{TELEGRAM_TOKEN}/')
 def process_webhook(update: dict):
     if update:
         update = telebot.types.Update.de_json(update)
@@ -25,8 +25,16 @@ def process_webhook(update: dict):
         return
 
 
+@app.get("/remove-webhook")
+def remove_webhook():
+    bot.remove_webhook()
+
+
 # Set webhook
-bot.set_webhook(f"{DOMAIN}/telegram-hook")
+@app.get("/set-webhook")
+def set_webhook():
+    bot.set_webhook(f"{DOMAIN}/telegram-hook")
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000)
