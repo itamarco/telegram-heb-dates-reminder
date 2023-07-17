@@ -25,8 +25,6 @@ def process_webhook(update: dict):
         return
 
 
-bot.remove_webhook()
-
 # Set webhook
 bot.set_webhook(f"{DOMAIN}/telegram-hook")
 
