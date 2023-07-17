@@ -4,7 +4,7 @@ import telebot
 import uvicorn
 from fastapi import FastAPI
 
-from telegram_bot import bot, TELEGRAM_TOKEN
+from telegram_bot import bot
 
 DOMAIN = os.environ.get("DOMAIN")
 app = FastAPI()
@@ -16,7 +16,7 @@ def root():
 
 
 # Process webhook calls
-@app.post(f'/telegram-hook/{TELEGRAM_TOKEN}/')
+@app.post(f'/telegram-hook')
 def process_webhook(update: dict):
     if update:
         update = telebot.types.Update.de_json(update)
