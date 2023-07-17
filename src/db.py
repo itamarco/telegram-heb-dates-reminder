@@ -1,10 +1,13 @@
 # Initialize the database
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from models.reminder import Base, ReminderDAO
 
-engine = create_engine('sqlite:///reminders.db')
+POSTGRES_URL = os.environ.get("SQLALCHEMY_POSTGRES_URL")
+engine = create_engine(POSTGRES_URL)  # ('sqlite:///reminders.db')
 Session = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)
 
