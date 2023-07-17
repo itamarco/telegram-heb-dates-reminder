@@ -1,7 +1,7 @@
 from typing import Tuple
 
 # (year = None, month, day)
-DateTuple = Tuple[int | None, int, int]
+DateTuple = Tuple[int, int, int]
 
 
 class Context:
