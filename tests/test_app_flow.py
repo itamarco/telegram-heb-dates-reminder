@@ -2,10 +2,10 @@ from datetime import date
 import unittest
 from unittest.mock import patch
 
-from app import calc_next_reminder_date
+from app_flow import calc_next_reminder_date
 
 
-class AppTest(unittest.TestCase):
+class AppFlowTest(unittest.TestCase):
     @patch('datetime.date')
     def test_next_reminder_future_date(self, mock_date):
         mock_date.today.return_value = date(2023, 7, 18)
