@@ -11,4 +11,4 @@ engine = create_engine(POSTGRES_URL)  # ('sqlite:///reminders.db')
 Session = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)
 
-reminderDao = ReminderDAO(Session())
+reminder_dao = ReminderDAO(Session())

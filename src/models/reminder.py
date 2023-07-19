@@ -1,3 +1,7 @@
+import collections
+from email.policy import default
+from typing import List
+
 from sqlalchemy import create_engine, Column, Integer, String, Date, Boolean
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -20,6 +24,7 @@ class Reminder(Base):
     eventYear = Column(Integer)
     reminderDays = Column(Integer)
     nextReminder = Column(Date)
+    lastReminder = Column(Date, default=None)
     repeat = Column(Boolean, default=True)
 
     def to_dict(self):
@@ -34,8 +39,8 @@ class Reminder(Base):
 
     def __repr__(self):
         return f"<Reminder(id={self.id}, userId={self.userId}, description='{self.description}', \
-eventDay={self.eventDay}, eventMonth={self.eventMonth}, eventYear={self.eventYear}, \
-reminderDays={self.reminderDays}, nextReminder='{self.nextReminder}')>"
+                eventDay={self.eventDay}, eventMonth={self.eventMonth}, eventYear={self.eventYear}, \
+                reminderDays={self.reminderDays}, nextReminder='{self.nextReminder}')>"
 
 
 # Define the Reminder DAO class
@@ -54,9 +59,17 @@ class ReminderDAO:
         self.session.merge(reminder)
         self.session.commit()
 
+    def update_all(self, reminders):
+        for reminder in reminders:
+            self.session.merge(reminder)
+        self.session.commit()
+        
     def delete(self, reminder):
         self.session.delete(reminder)
         self.session.commit()
 
     def find_by_user(self, userId):
         return self.session.query(Reminder).filter_by(userId=userId).all()
+
+    def find_by_date(self, date) -> List[Reminder]:
+        return self.session.query(Reminder).filter_by(nextReminder=date).all()

@@ -1,10 +1,6 @@
 import os
-
-import telebot
 import uvicorn
 from fastapi import FastAPI
-
-from telegram_bot import bot
 
 DOMAIN = os.environ.get("DOMAIN")
 app = FastAPI()
