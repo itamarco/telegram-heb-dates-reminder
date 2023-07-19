@@ -2,7 +2,7 @@ import json
 import logging
 from collections import defaultdict
 from enum import Enum
-from typing import Dict, Any
+from typing import Dict
 
 from datetime import date
 from pyluach.dates import HebrewDate
@@ -11,6 +11,7 @@ from date_utils import heb_date_str_to_hebrew_date
 from db import reminder_dao
 from models.context import Context, DateTuple
 from models.reminder import Reminder
+from models.enums import TEXTS, OP
 from telegram_bot import send_msg
 from text_patterns import is_date_msg, date_string_has_year
 
@@ -21,18 +22,6 @@ class LastStage(str, Enum):
     DATE_PROVIDED = "DATE_PROVIDED",
     EVENT_DESCRIPTION = "EVENT_DESCRIPTION",
     REMINDER_DAYS = "REMINDER_DAYS",
-
-
-class OP(str, Enum):
-    LIST_EVENTS = "רשימת תזכורות",
-    DELETE_EVENT = "מחק תזכורת",
-
-
-class TEXTS(str, Enum):
-    SET_DESCRIPTION = "תיאור קצר של האירוע:",
-    SET_REMINDER_DAYS = "כמה ימים מראש להתריע?",
-    REMINDER_ADDED = "תזכורת התווספה בהצלחה",
-    FLOW_ERROR = "Internal flow error"
 
 
 _context: Dict[int, Context] = {}

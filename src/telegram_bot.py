@@ -2,7 +2,8 @@ import os
 
 import telebot
 
-from app_flow import OP, parse_input
+from app_flow import parse_input
+from models.enums import OP
 
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 
@@ -22,10 +23,12 @@ def send_menu_keyboard(chat_id):
     # Send a welcome message with the custom keyboard
     bot.send_message(chat_id, "Welcome! Please choose an option:", reply_markup=keyboard)
 
-def send_msg(chat_id, text):
-    bot.send_message(chat_id,text)
 
-    @bot.message_handler(commands=["start"])
+def send_msg(chat_id, text):
+    bot.send_message(chat_id, text)
+
+
+@bot.message_handler(commands=["start"])
 def handle_new_chat_member(message):
     chat_id = message.chat.id
     send_menu_keyboard(chat_id)
