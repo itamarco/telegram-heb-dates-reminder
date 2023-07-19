@@ -19,8 +19,8 @@ def trigger_reminders(reminder_date: date = date.today()):
     notifications = defaultdict(list)
     for reminder in today_reminders:
         reminder.lastReminder = reminder.nextReminder
-        reminder.nextReminder = calc_next_reminder_date(
-            (reminder.eventYear, reminder.eventMonth, reminder.eventDay), reminder.reminderDays)
+        reminder.nextReminder = None if not reminder.repeat else calc_next_reminder_date(
+            (HebrewDate.today().year + 1, reminder.eventMonth, reminder.eventDay), reminder.reminderDays)
 
         notifications[reminder.userId].append(reminder)
 
