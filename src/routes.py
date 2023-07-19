@@ -1,18 +1,18 @@
 import logging
+import os
 from datetime import date
 
-from app_flow import trigger_reminders
-from main import app, DOMAIN
+from operations import trigger_reminders
 from telegram_bot import bot
 from fastapi import APIRouter
 import telebot
 
 logger = logging.getLogger("heb-dates")
-
+DOMAIN = os.environ.get("DOMAIN")
 router = APIRouter()
 
 
-@router.get("/status")
+@router.get("/")
 async def root():
     return {"status": "Healthy"}
 
@@ -36,8 +36,8 @@ async def trigger_today_reminders(_date: str):
         date_parts = [int(elm) for elm in _date.split("-")]
         reminder_date = date(date_parts[2], date_parts[1], date_parts[0])
         trigger_reminders(reminder_date)
-    except Exception as e:
-        logger.error("Failed to trigger reminders", exc_info=e)
+    except Exception:
+        logger.exception("Failed to trigger reminders")
 
 
 # Process webhook calls

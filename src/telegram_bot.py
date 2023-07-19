@@ -2,7 +2,7 @@ import os
 
 import telebot
 
-from app_flow import parse_input
+from user_flow import parse_input
 from models.enums import OP
 
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')

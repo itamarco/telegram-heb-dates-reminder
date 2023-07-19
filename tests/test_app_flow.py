@@ -2,7 +2,7 @@ from datetime import date
 import unittest
 from unittest.mock import patch
 
-from app_flow import calc_next_reminder_date
+from user_flow import calc_next_reminder_date
 
 
 class AppFlowTest(unittest.TestCase):
