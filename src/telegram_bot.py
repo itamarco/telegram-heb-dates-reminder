@@ -41,7 +41,7 @@ def handle_new_chat_member(message):
 
 
 @bot.message_handler(func=lambda message: True)
-def echo_all(message):
+def parse_with_context(message):
     user_id = chat_id = message.chat.id
     ret_msg = parse_input(user_id, message.text)
     bot.send_message(chat_id, ret_msg)

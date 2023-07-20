@@ -6,7 +6,6 @@ from typing import Dict
 from db import reminder_dao
 from models.context import DateTuple
 from models.reminder import Reminder
-from telegram_bot import send_msg
 from pyluach.dates import HebrewDate
 
 logger = logging.getLogger("heb-dates")
@@ -32,6 +31,7 @@ def trigger_reminders(reminder_date: date = date.today()):
 
 
 def send_notifications(notifications_dict: Dict[str, Reminder]):
+    from telegram_bot import send_msg  # refactor
     for chat_id in notifications_dict.keys():
         for reminder in notifications_dict.get(chat_id):
             send_msg(chat_id, f"בעוד {reminder.reminderDays} ימים: {reminder.description}")
