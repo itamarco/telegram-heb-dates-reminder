@@ -73,3 +73,10 @@ def calc_next_reminder_date(date_tuple: DateTuple, reminder_days: int):
         next_reminder = (current_year_date.add(years=1) - reminder_days).to_pydate()
 
     return next_reminder
+
+
+def pretty_print_reminder(reminder: Reminder) -> str:
+    year = reminder.eventYear or HebrewDate.today().year
+    heb_date = HebrewDate(year, reminder.eventMonth, reminder.eventDay)
+
+    return f"🕙 ({reminder.id}): {reminder.description}, {heb_date.hebrew_date_string()}, 📅 -{reminder.reminderDays}- {reminder.nextReminder}  "

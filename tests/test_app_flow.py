@@ -22,9 +22,6 @@ class AppFlowTest(unittest.TestCase):
                 self.assertEqual(reminder_date, next_reminder,
                                  msg=f"Bad response for input {heb_date_input, reminder_days}")
 
-        # next_reminder = calc_next_reminder_date((5990, 4, 25), reminder_days=7)
-        # self.assertEqual(next_reminder, date(2299, 12, 1))  # add assertion here
-
 
 if __name__ == '__main__':
     unittest.main()

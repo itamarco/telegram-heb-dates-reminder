@@ -8,7 +8,7 @@ from date_utils import heb_date_str_to_hebrew_date
 from db import reminder_dao
 from models.context import Context
 from models.enums import TEXTS, OP
-from operations import add_reminder
+from operations import add_reminder, pretty_print_reminder
 from text_patterns import is_date_msg, date_string_has_year
 
 logger = logging.getLogger("heb-dates")
@@ -58,8 +58,11 @@ def parse_input(user_id: int, text: str) -> str:
         return f"{TEXTS.REMINDER_ADDED.value}"
 
     elif text == OP.LIST_EVENTS.value:
-        reminders = [reminder.to_dict() for reminder in reminder_dao.find_by_user(user_id)]
-        return json.dumps(reminders, ensure_ascii=False).encode('utf8')
+        reminders = reminder_dao.find_by_user(user_id)
+        response_lines = [
+            pretty_print_reminder(reminder) for reminder in reminders
+        ]
+        return "\n".join(response_lines) + "\n"
 
     else:
         return TEXTS.FLOW_ERROR.value
