@@ -24,22 +24,20 @@ async def echo(chat_id: str):
 
 @router.get("/trigger-today-reminders")
 async def trigger_today_reminders():
-    try:
-        total_reminders = trigger_reminders()
-        return {"status": f"Total reminders: {total_reminders}"}
-    except Exception as e:
-        logger.error("Failed to trigger reminders", exc_info=e)
-        return {"status": f"Failure {e}"}
+    today = date.today()
+    return trigger_reminders(f"{date.day}-{date.month}-{date.year}")
 
 
 @router.get("/trigger-reminders/{_date}")  # /trigger-reminders/24-5-2023
-async def trigger_today_reminders(_date: str):
+async def trigger_reminders(_date: str):
     try:
         date_parts = [int(elm) for elm in _date.split("-")]
         reminder_date = date(date_parts[2], date_parts[1], date_parts[0])
-        trigger_reminders(reminder_date)
-    except Exception:
+        total_triggered_reminders = trigger_reminders(reminder_date)
+        return {"status": f"Total reminders: {total_triggered_reminders}"}
+    except Exception as e:
         logger.exception("Failed to trigger reminders")
+        return {"status": f"Failure {e}"}
 
 
 # Process webhook calls
