@@ -14,7 +14,7 @@ router = APIRouter()
 
 @router.get("/")
 async def root():
-    return {"status": "Healthy"}
+    return {"status": "ok"}
 
 
 @router.get("/echo/{chat_id}")
@@ -25,9 +25,11 @@ async def echo(chat_id: str):
 @router.get("/trigger-today-reminders")
 async def trigger_today_reminders():
     try:
-        trigger_reminders()
+        total_reminders = trigger_reminders()
+        return {"status": f"Total reminders: {total_reminders}"}
     except Exception as e:
         logger.error("Failed to trigger reminders", exc_info=e)
+        return {"status": f"Failure {e}"}
 
 
 @router.get("/trigger-reminders/{_date}")  # /trigger-reminders/24-5-2023

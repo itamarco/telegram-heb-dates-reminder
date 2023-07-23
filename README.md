@@ -1,6 +1,6 @@
 # Hebrew Events Reminder Telegram Bot
 
-![Telegram Logo](/assets/telegram-logo.png)
+<img alt="Telegram Logo" height="100px" src="assets/telegram-logo.png"/>
 
 ## Description
 

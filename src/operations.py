@@ -10,8 +10,26 @@ from pyluach.dates import HebrewDate
 
 logger = logging.getLogger("heb-dates")
 
+"""
+    :argument reminder_date
+"""
 
-def trigger_reminders(reminder_date: date = date.today()):
+
+def trigger_reminders(reminder_date: date = date.today()) -> int:
+    """
+        Trigger reminders for a specified date.
+
+        This function fetches reminders from the database for the given date and sends notifications to the users
+        with reminders on this date. After sending notifications, it updates the reminders in the database
+        to set the 'lastReminder' and 'nextReminder' fields accordingly.
+
+        Parameters:
+            reminder_date (date, optional): The date for which reminders need to be triggered.
+                Defaults to today's date if not specified.
+
+        Returns:
+            int: The number of reminders triggered successfully.
+    """
     logger.info(f"Triggering reminders for {reminder_date}")
     today_reminders = reminder_dao.find_by_date(reminder_date)
     logger.info(f"Found {len(today_reminders)} reminders")
@@ -28,6 +46,7 @@ def trigger_reminders(reminder_date: date = date.today()):
     logger.info("Updating reminders in DB")
     reminder_dao.update_all(today_reminders)
     logger.info("Reminders triggered successfully!")
+    return len(notifications)
 
 
 def send_notifications(notifications_dict: Dict[str, Reminder]):

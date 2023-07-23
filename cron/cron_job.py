@@ -35,10 +35,11 @@ try:
     response = requests.get(request_url)
     response_json = response.json()
 
-    if response.status_code == 200 and response_json.get("status") == "healthy":
-        logger.info("Status:", response_json["status"])
+    if response.status_code == 200:
+        if response_json.get("status") != "ok":
+            logger.info("Status: %s", response_json["status"])
     else:
-        logger.error("Unexpected response:", response.text)
+        logger.error("Unexpected response: %s", response_json["status"])
 
 except requests.RequestException as e:
     logger.exception("cron job failed")
