@@ -25,11 +25,11 @@ async def echo(chat_id: str):
 @router.get("/trigger-today-reminders")
 async def trigger_today_reminders():
     today = date.today()
-    return trigger_reminders(f"{date.day}-{date.month}-{date.year}")
+    return trigger_reminders_by_date(f"{date.day}-{date.month}-{date.year}")
 
 
 @router.get("/trigger-reminders/{_date}")  # /trigger-reminders/24-5-2023
-async def trigger_reminders(_date: str):
+async def trigger_reminders_by_date(_date: str):
     try:
         date_parts = [int(elm) for elm in _date.split("-")]
         reminder_date = date(date_parts[2], date_parts[1], date_parts[0])
