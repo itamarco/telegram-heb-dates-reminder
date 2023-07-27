@@ -40,6 +40,8 @@ try:
             logger.info("Status: %s", response_json["status"])
     else:
         logger.error("Unexpected response: %s", response_json["status"])
+        raise Exception(f"Got unexpected response from server: {response_json['status']}")
 
 except requests.RequestException as e:
     logger.exception("cron job failed")
+    raise Exception("cron jopb failed", e)
