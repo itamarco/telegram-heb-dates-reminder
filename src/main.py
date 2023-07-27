@@ -1,11 +1,8 @@
 import logging
-import os
 import uvicorn
 from fastapi import FastAPI
-
 from routes import router
 
-DOMAIN = os.environ.get("DOMAIN")
 app = FastAPI()
 
 app.include_router(router, prefix="")
