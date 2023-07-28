@@ -5,6 +5,7 @@ from typing import Dict
 
 from db import reminder_dao
 from models.context import DateTuple
+from models.enums import TEXT_FORMATS
 from models.reminder import Reminder
 from pyluach.dates import HebrewDate
 
@@ -53,7 +54,7 @@ def send_notifications(notifications_dict: Dict[str, Reminder]):
     from telegram_bot import send_msg  # refactor
     for chat_id in notifications_dict.keys():
         for reminder in notifications_dict.get(chat_id):
-            send_msg(chat_id, f"בעוד {reminder.reminderDays} ימים: {reminder.description}")
+            send_msg(chat_id, TEXT_FORMATS.EVENT_IS_COMING(days=reminder.reminderDays, event=reminder.description))
 
 
 def add_reminder(user_id, date_tuple: DateTuple, description, reminder_days):
@@ -98,4 +99,10 @@ def pretty_print_reminder(reminder: Reminder) -> str:
     year = reminder.eventYear or HebrewDate.today().year
     heb_date = HebrewDate(year, reminder.eventMonth, reminder.eventDay)
 
-    return f"🕙 ({reminder.id}): {reminder.description}, {heb_date.hebrew_date_string()}, 📅 -{reminder.reminderDays}- {reminder.nextReminder}  "
+    return TEXT_FORMATS.REMINDER_PRETTY_PRINT.format(
+        id=reminder.id,
+        title=reminder.description,
+        date=heb_date.hebrew_date_string(),
+        reminder_days=reminder.reminderDays,
+        next_reminder=reminder.nextReminder
+    )

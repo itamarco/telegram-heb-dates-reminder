@@ -1,13 +1,16 @@
 import json
 import logging
 import re
+from collections import defaultdict
 from enum import Enum
 from typing import Dict
+
+from pyluach.dates import HebrewDate
 
 from date_utils import heb_date_str_to_hebrew_date
 from db import reminder_dao
 from models.context import Context
-from models.enums import TEXTS, OP
+from models.enums import TEXTS, OP, TEXT_FORMATS
 from operations import add_reminder, pretty_print_reminder
 from text_patterns import is_date_msg, date_string_has_year
 
@@ -57,12 +60,35 @@ def parse_input(user_id: int, text: str) -> str:
         del _context[user_id]
         return f"{TEXTS.REMINDER_ADDED.value}"
 
-    elif text == OP.LIST_EVENTS.value:
+    elif text == OP.LIST_REMINDERS.value:
         reminders = reminder_dao.find_by_user(user_id)
         response_lines = [
             pretty_print_reminder(reminder) for reminder in reminders
         ]
         return "\n".join(response_lines) + "\n"
+
+    elif text == OP.LIST_EVENTS.value:
+        reminders = reminder_dao.find_by_user(user_id)
+        event_reminders = defaultdict(list)
+        event_dates = {}
+        for reminder in reminders:
+            year = reminder.eventYear or HebrewDate.today().year
+            heb_date = HebrewDate(year, reminder.eventMonth, reminder.eventDay)
+            event_reminders[reminder.description].append(str(reminder.reminderDays))
+            event_dates[reminder.description] = heb_date.hebrew_date_string()
+
+        return "\n".join([
+            TEXT_FORMATS.EVENT_PRETTY_PRINT.format(
+                title=title,
+                date=event_dates[title],
+                reminder_days_list=", ".join(event_reminders[title])
+            )
+            for title in event_dates.keys()
+        ])
+
+
+    elif text == OP.INSTRUCTIONS.value:
+        return TEXTS.INSTRUCTIONS
 
     else:
         return TEXTS.FLOW_ERROR.value
