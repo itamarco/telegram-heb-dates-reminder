@@ -106,3 +106,9 @@ def pretty_print_reminder(reminder: Reminder) -> str:
         reminder_days=reminder.reminderDays,
         next_reminder=reminder.nextReminder
     )
+
+
+def get_event_titles(user_id):
+    reminders = reminder_dao.find_by_user(user_id)
+    events = set([reminder.description for reminder in reminders])
+    return events
