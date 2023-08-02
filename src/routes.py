@@ -2,10 +2,11 @@ import logging
 import os
 from datetime import date
 
-from operations import trigger_reminders
-from telegram_bot import bot
-from fastapi import APIRouter
 import telebot
+
+from operations import trigger_reminders
+from bot.telegram_bot import heb_date_bot
+from fastapi import APIRouter
 
 logger = logging.getLogger("heb-dates")
 DOMAIN = os.environ.get("DOMAIN")
@@ -19,7 +20,7 @@ async def root():
 
 @router.get("/echo/{chat_id}")
 async def echo(chat_id: str):
-    bot.send_message(chat_id, "echo")
+    heb_date_bot.send_message(chat_id, "echo")
 
 
 @router.get("/trigger-today-reminders")
@@ -40,22 +41,21 @@ async def trigger_reminders_by_date(_date: str):
         return {"status": f"Failure {e}"}
 
 
-# Process webhook calls
 @router.post(f'/telegram-hook')
 def process_webhook(update: dict):
     if update:
         update = telebot.types.Update.de_json(update)
-        bot.process_new_updates([update])
+        heb_date_bot.get_bot().process_new_updates([update])
     else:
         return
 
 
 @router.get("/remove-webhook")
 def remove_webhook():
-    bot.remove_webhook()
+    heb_date_bot.unset_webhook()
 
 
 # Set webhook
 @router.get("/set-webhook")
 def set_webhook():
-    bot.set_webhook(f"{DOMAIN}/telegram-hook")
+    heb_date_bot.set_webhook(f"{DOMAIN}/telegram-hook")
