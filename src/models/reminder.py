@@ -3,6 +3,7 @@ from email.policy import default
 from typing import List
 
 from sqlalchemy import create_engine, Column, Integer, String, Date, Boolean
+from sqlalchemy.exc import NoResultFound
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -63,7 +64,7 @@ class ReminderDAO:
         for reminder in reminders:
             self.session.merge(reminder)
         self.session.commit()
-        
+
     def delete(self, reminder):
         self.session.delete(reminder)
         self.session.commit()
@@ -73,3 +74,15 @@ class ReminderDAO:
 
     def find_by_date(self, date) -> List[Reminder]:
         return self.session.query(Reminder).filter_by(nextReminder=date).all()
+
+    def delete_by_userid_description(self, user_id, description) -> int:
+        try:
+            reminders = self.session.query(Reminder) \
+                .filter(Reminder.userId == user_id, Reminder.description == description) \
+                .all()
+            for reminder in reminders:
+                self.session.delete(reminder)
+            self.session.commit()
+            return len(reminders)
+        except NoResultFound:
+            return 0

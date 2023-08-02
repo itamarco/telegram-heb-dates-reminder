@@ -1,15 +1,15 @@
 import logging
 from threading import Thread
 import uvicorn
-from telegram_bot import bot
+from bot.telegram_bot import heb_date_bot
 
 
-def blocking():
+def start_bot():
     print("Starting bot")
-    bot.infinity_polling()
+    heb_date_bot.polling()
 
 
 if __name__ == "__main__":
-    thread = Thread(target=blocking)
+    thread = Thread(target=start_bot)
     thread.start()
     uvicorn.run("main:app", host="0.0.0.0", port=8000, log_level=logging.INFO)
