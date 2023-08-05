@@ -3,7 +3,7 @@ from enum import Enum
 
 class TEXTS(str, Enum):
     CLICK_EVENT_TO_DELETE = "לחץ על אירוע שברצונך למחוק"
-    INSTRUCTIONS = 'כדי להכניס אירוע חדש, התחלה בשליחה של התאריך העברי שלו (לדוגמא: "כה שבט תשנד" / "יב אב"). אם התאריך תקין הבוט ידריך אותך איך להמשיך'
+    INSTRUCTIONS = 'כדי להכניס אירוע חדש, התחל בשליחה של התאריך העברי שלו (לדוגמא: "כה שבט תשנד" / "יב אב"). אם התאריך תקין הבוט ידריך אותך איך להמשיך'
     SET_DESCRIPTION = "כותרת לאירוע:",
     SET_REMINDER_DAYS = "כמה ימים מראש להתריע?",
     REMINDER_ADDED = "תזכורת התווספה בהצלחה! 👍🏼",
@@ -20,9 +20,10 @@ class TEXT_FORMATS(str, Enum):
 
 class OP(str, Enum):
     INSTRUCTIONS = "הוראות"
-    LIST_EVENTS = "רשימת אירועים",
+    LIST_EVENTS = "רשימת אירועים"
     LIST_REMINDERS = "רשימת תזכורות"
-    DELETE_EVENT = "מחק אירוע",
+    DELETE_EVENT = "מחק אירוע"
+    TODAY = "היום"
 
 
 class CALLBACK_ACTION(str, Enum):
