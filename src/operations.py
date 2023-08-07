@@ -51,10 +51,12 @@ def trigger_reminders(reminder_date: date = date.today()) -> int:
 
 
 def send_notifications(notifications_dict: Dict[str, Reminder]):
-    from bot.bot_impl import send_msg  # refactor
+    from bot.telegram_bot import heb_date_bot  # refactor
     for chat_id in notifications_dict.keys():
         for reminder in notifications_dict.get(chat_id):
-            send_msg(chat_id, TEXT_FORMATS.EVENT_IS_COMING(days=reminder.reminderDays, event=reminder.description))
+            heb_date_bot.send_msg(chat_id,
+                                  TEXT_FORMATS.EVENT_IS_COMING.format(days=reminder.reminderDays,
+                                                                      event=reminder.description))
 
 
 def add_reminder(user_id, date_tuple: DateTuple, description, reminder_days):
