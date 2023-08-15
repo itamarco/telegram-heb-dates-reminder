@@ -46,43 +46,53 @@ class Reminder(Base):
 
 # Define the Reminder DAO class
 class ReminderDAO:
-    def __init__(self, session):
-        self.session = session
+    def __init__(self, engine):
+        self.Session = sessionmaker(bind=engine)
 
     def create(self, reminder):
-        self.session.add(reminder)
-        self.session.commit()
+        with self.Session() as session:
+            session.add(reminder)
+            session.commit()
+            session.refresh(reminder)
+        return reminder
 
     def read(self, id):
-        return self.session.query(Reminder).filter_by(id=id).first()
+        with self.Session() as session:
+            return session.query(Reminder).filter_by(id=id).first()
 
     def update(self, reminder):
-        self.session.merge(reminder)
-        self.session.commit()
+        with self.Session() as session:
+            session.merge(reminder)
+            session.commit()
 
     def update_all(self, reminders):
+        session = self.Session()
         for reminder in reminders:
-            self.session.merge(reminder)
-        self.session.commit()
+            session.merge(reminder)
+        session.commit()
 
     def delete(self, reminder):
-        self.session.delete(reminder)
-        self.session.commit()
+        session = self.Session()
+        session.delete(reminder)
+        session.commit()
 
     def find_by_user(self, userId):
-        return self.session.query(Reminder).filter_by(userId=userId).all()
+        session = self.Session()
+        return session.query(Reminder).filter_by(userId=userId).all()
 
     def find_by_date(self, date) -> List[Reminder]:
-        return self.session.query(Reminder).filter_by(nextReminder=date).all()
+        session = self.Session()
+        return session.query(Reminder).filter_by(nextReminder=date).all()
 
     def delete_by_userid_description(self, user_id, description) -> int:
+        session = self.Session()
         try:
-            reminders = self.session.query(Reminder) \
+            reminders = session.query(Reminder) \
                 .filter(Reminder.userId == user_id, Reminder.description == description) \
                 .all()
             for reminder in reminders:
-                self.session.delete(reminder)
-            self.session.commit()
+                session.delete(reminder)
+            session.commit()
             return len(reminders)
         except NoResultFound:
             return 0

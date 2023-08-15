@@ -14,14 +14,7 @@ class TestReminderDAO(unittest.TestCase):
         Base.metadata.create_all(cls.engine)
 
     def setUp(self):
-        # Start a new database session and create a DAO object
-        self.session = self.Session()
-        self.dao = ReminderDAO(session=self.session)
-
-    def tearDown(self):
-        # Roll back any changes made during the test and close the session
-        self.session.rollback()
-        self.session.close()
+        self.dao = ReminderDAO(self.engine)
 
     def test_create(self):
         # Create a new Reminder object and add it to the database
@@ -34,7 +27,7 @@ class TestReminderDAO(unittest.TestCase):
         # Add a Reminder to the database
         reminder = Reminder(userId=1, description='Pay rent', eventDay=1, eventMonth=6, eventYear=2023, reminderDays=7,
                             nextReminder=date(2023, 5, 25))
-        self.dao.create(reminder)
+        reminder = self.dao.create(reminder)
 
         # Read the Reminder back from the database and check its attributes
         db_reminder = self.dao.read(reminder.id)
