@@ -9,7 +9,7 @@ from bot.telegram_bot import heb_date_bot
 from fastapi import APIRouter
 
 logger = logging.getLogger("heb-dates")
-DOMAIN = os.environ.get("DOMAIN")
+DOMAIN = os.environ.get("HOST")
 router = APIRouter()
 
 
@@ -20,7 +20,7 @@ async def root():
 
 @router.get("/echo/{chat_id}")
 async def echo(chat_id: str):
-    heb_date_bot.send_message(chat_id, "echo")
+    heb_date_bot.send_msg(chat_id, "echo")
 
 
 @router.get("/trigger-today-reminders")

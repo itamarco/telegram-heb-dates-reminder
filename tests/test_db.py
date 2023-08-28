@@ -2,7 +2,7 @@ import unittest
 from datetime import date
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from src.models.reminder import Reminder, ReminderDAO, Base
+from app.models.reminder import Reminder, ReminderDAO, Base
 
 
 class TestReminderDAO(unittest.TestCase):
