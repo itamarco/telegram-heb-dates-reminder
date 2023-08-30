@@ -1,7 +1,11 @@
 import logging
+import sys
+
 import uvicorn
 from fastapi import FastAPI
 from routes import router
+
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 app = FastAPI()
 
