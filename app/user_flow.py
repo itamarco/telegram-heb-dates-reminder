@@ -1,13 +1,12 @@
 import json
 import logging
 import re
-from collections import defaultdict
 from enum import Enum
 from typing import Dict
 
 from pyluach.dates import HebrewDate
 
-from date_utils import heb_date_str_to_hebrew_date
+from date_utils import heb_date_str_to_hebrew_date, date_parts_to_date
 from db import reminder_dao
 from models.bot_response import BotResponse
 from models.context import Context
@@ -69,22 +68,25 @@ def parse_freetext_input(user_id: int, text: str) -> BotResponse:
         return BotResponse("\n".join(response_lines) + "\n")
 
     elif text == OP.LIST_EVENTS.value:
-        reminders = reminder_dao.find_by_user(user_id)
-        event_reminders = defaultdict(list)
-        event_dates = {}
-        for reminder in reminders:
-            year = reminder.eventYear or HebrewDate.today().year
-            heb_date = HebrewDate(year, reminder.eventMonth, reminder.eventDay)
-            event_reminders[reminder.description].append(str(reminder.reminderDays))
-            event_dates[reminder.description] = heb_date.hebrew_date_string()
+        _events = reminder_dao.get_events(user_id)
+        events = []
+        for _event in _events:
+            heb_date = date_parts_to_date(_event.event_day, _event.event_month, _event.event_year)
+            event = {
+                'description': _event.description,
+                'heb_date': heb_date.hebrew_date_string(),
+                'reminder_days_list': _event.reminder_days_list
+            }
+            events.append(event)
+            # event['anniversary'] = (HebrewDate.today() - heb_date) // 365 + 1
 
         return BotResponse("\n".join([
             TEXT_FORMATS.EVENT_PRETTY_PRINT.format(
-                title=title,
-                date=event_dates[title],
-                reminder_days_list=", ".join(event_reminders[title])
+                title=event['description'],
+                date=event['heb_date'],
+                reminder_days_list=event['reminder_days_list']
             )
-            for title in event_dates.keys()
+            for event in events
         ]))
 
     elif text == OP.DELETE_EVENT.value:

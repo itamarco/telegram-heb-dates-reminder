@@ -41,3 +41,8 @@ def heb_date_str_to_hebrew_date(date_str: str) -> HebrewDate:
     year = gematria(year_letters) + 5000
 
     return HebrewDate(year, month, day)
+
+
+def date_parts_to_date(day, month, year=None):
+    heb_year = year or HebrewDate.today().year
+    return HebrewDate(heb_year, month, day)
