@@ -19,7 +19,7 @@
     }
   ],"build": {
     "env": {
-      "PYTHONPATH": "./app"
+      "PYTHONPATH": "app"
     }
   }
 }
