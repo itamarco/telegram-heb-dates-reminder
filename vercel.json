@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "main.py",
+      "src": "app/main.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "main.py"
+      "dest": "app/set main.py"
     }
   ],
   "crons": [
@@ -17,5 +17,9 @@
       "schedule": "0 6 * * *",
       "path": "/trigger-today-reminders"
     }
-  ]
+  ],"build": {
+    "env": {
+      "PYTHONPATH": "./app"
+    }
+  }
 }
