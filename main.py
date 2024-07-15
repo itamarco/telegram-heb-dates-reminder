@@ -3,7 +3,7 @@ import sys
 
 import uvicorn
 from fastapi import FastAPI
-from routes import router
+from app.routes import router
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
