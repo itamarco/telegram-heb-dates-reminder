@@ -3,8 +3,8 @@ from typing import List
 
 import telebot
 
-from app.models.enums import OP, TEXT_FORMATS, TEXTS
-from app.user_flow import parse_freetext_input
+from models.enums import OP, TEXT_FORMATS, TEXTS
+from user_flow import parse_freetext_input
 
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 

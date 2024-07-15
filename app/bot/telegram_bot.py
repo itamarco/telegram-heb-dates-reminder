@@ -1,5 +1,5 @@
-from app.bot.bot_impl import BotImpl, callback_action_delimiter
-from app.user_flow import parse_freetext_input, handle_callback_actions
+from bot.bot_impl import BotImpl, callback_action_delimiter
+from user_flow import parse_freetext_input, handle_callback_actions
 
 heb_date_bot = BotImpl()
 bot = heb_date_bot.get_bot()

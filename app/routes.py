@@ -4,8 +4,8 @@ from datetime import date
 
 import telebot
 
-from app.operations import trigger_reminders
-from app.bot.telegram_bot import heb_date_bot
+from operations import trigger_reminders
+from bot.telegram_bot import heb_date_bot
 from fastapi import APIRouter
 
 logger = logging.getLogger("heb-dates")

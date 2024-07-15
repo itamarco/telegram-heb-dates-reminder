@@ -3,10 +3,10 @@ from collections import defaultdict
 from datetime import date
 from typing import Dict
 
-from app.db import reminder_dao
-from app.models.context import DateTuple
-from app.models.enums import TEXT_FORMATS
-from app.models.reminder import Reminder
+from db import reminder_dao
+from models.context import DateTuple
+from models.enums import TEXT_FORMATS
+from models.reminder import Reminder
 from pyluach.dates import HebrewDate
 
 logger = logging.getLogger("heb-dates")
