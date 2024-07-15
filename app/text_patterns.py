@@ -1,4 +1,4 @@
-from date_utils import heb_date_str_to_hebrew_date, gematria
+from app.date_utils import heb_date_str_to_hebrew_date, gematria
 
 
 def is_start_msg(text):
