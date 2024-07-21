@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "devCommand": "python3 main.py",
   "env": {
 	    "PYTHONPATH": "app/"
   },
@@ -20,10 +21,5 @@
       "schedule": "0 6 * * *",
       "path": "/trigger-today-reminders"
     }
-  ],
-  "functions": {
-    "app/main.py": {
-      "maxDuration": 30
-    }
-  }
+  ]
 }
