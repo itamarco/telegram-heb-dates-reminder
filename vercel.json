@@ -1,7 +1,8 @@
 {
   "version": 2,
+  "devCommand": "python3 main.py",
   "env": {
-	    "PYTHONPATH": "app/"
+    "PYTHONPATH": "app/"
   },
   "builds": [
     {
