@@ -20,5 +20,10 @@
       "schedule": "0 6 * * *",
       "path": "/trigger-today-reminders"
     }
-  ]
+  ],
+  "functions": {
+    "app/main.py": {
+      "maxDuration": 30
+    }
+  }
 }
