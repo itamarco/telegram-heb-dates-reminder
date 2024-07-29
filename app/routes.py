@@ -41,6 +41,7 @@ async def db_test():
         reminders = cur.fetchall()
 
         # Process the results
+        print(f"{len(reminders)} entries")
         for reminder in reminders:
             print(reminder)
     except Exception as e:
