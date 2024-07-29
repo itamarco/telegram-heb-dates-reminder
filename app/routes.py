@@ -4,6 +4,7 @@ from datetime import date
 
 import telebot
 
+from app.db import reminder_dao
 from operations import trigger_reminders
 from bot.telegram_bot import heb_date_bot
 from fastapi import APIRouter
@@ -20,32 +21,10 @@ async def root():
 
 @router.get("/db")
 async def db_test():
-    import os
-    import psycopg2
-
-    conn = psycopg2.connect(
-        host=os.environ.get('POSTGRES_HOST'),
-        database=os.environ.get('POSTGRES_DATABASE'),
-        user=os.environ.get('POSTGRES_USER'),
-        password=os.environ.get('POSTGRES_PASSWORD')
-    )
-    print("Database connection established.")
-    cur = conn.cursor()
-    # Define the query
-    query = "SELECT * FROM reminder;"
-
-    # Execute the query
-    try:
-        cur.execute(query)
-        # Fetch all results
-        reminders = cur.fetchall()
-
-        # Process the results
-        print(f"{len(reminders)} entries")
-        for reminder in reminders:
-            print(reminder)
-    except Exception as e:
-        print(f"Error executing query: {e}")
+    admin_id = os.environ.get("ADMIN_CHAT_ID")
+    heb_date_bot.send_msg(admin_id, "starting db")
+    reminders = reminder_dao.find_by_user(admin_id)
+    heb_date_bot.send_msg(admin_id, f"found reminders {len(reminders)}")
 
 
 @router.get("/echo/{chat_id}")
