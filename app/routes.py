@@ -18,6 +18,35 @@ async def root():
     return {"status": "ok"}
 
 
+@router.get("/db")
+async def db_test():
+    import os
+    import psycopg2
+
+    conn = psycopg2.connect(
+        host=os.environ.get('POSTGRES_HOST'),
+        database=os.environ.get('POSTGRES_DATABASE'),
+        user=os.environ.get('POSTGRES_USER'),
+        password=os.environ.get('POSTGRES_PASSWORD')
+    )
+    print("Database connection established.")
+    cur = conn.cursor()
+    # Define the query
+    query = "SELECT * FROM reminder;"
+
+    # Execute the query
+    try:
+        cur.execute(query)
+        # Fetch all results
+        reminders = cur.fetchall()
+
+        # Process the results
+        for reminder in reminders:
+            print(reminder)
+    except Exception as e:
+        print(f"Error executing query: {e}")
+
+
 @router.get("/echo/{chat_id}")
 async def echo(chat_id: str):
     heb_date_bot.send_msg(chat_id, "echo")
