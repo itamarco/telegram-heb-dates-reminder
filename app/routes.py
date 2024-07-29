@@ -23,7 +23,7 @@ async def root():
 async def db_test():
     admin_id = os.environ.get("ADMIN_CHAT_ID")
     heb_date_bot.send_msg(admin_id, os.environ.get("SQLALCHEMY_POSTGRES_URL"))
-    reminders = 8888
+    reminders = ["1"]
     try:
         reminders = reminder_dao.find_by_user(admin_id)
     except Exception as e:
