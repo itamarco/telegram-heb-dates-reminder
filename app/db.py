@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 from models.reminder import Base, ReminderDAO
 
-POSTGRES_URL = os.environ.get("POSTGRES_URL")
+POSTGRES_URL = os.environ.get("SQLALCHEMY_POSTGRES_URL")
 engine = create_engine(POSTGRES_URL)  # ('sqlite:///reminders.db')
 # Base.metadata.create_all(engine)
 
