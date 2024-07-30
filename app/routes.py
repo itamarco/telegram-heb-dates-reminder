@@ -16,6 +16,7 @@ router = APIRouter()
 
 @router.get("/")
 async def root():
+    logger.info("root request")
     return {"status": "ok"}
 
 
