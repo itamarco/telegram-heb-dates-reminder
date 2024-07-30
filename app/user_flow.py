@@ -104,7 +104,6 @@ def parse_freetext_input(user_id: int, text: str) -> BotResponse:
         return BotResponse(TEXTS.INSTRUCTIONS)
 
     elif text == OP.TODAY.value:
-        print("today op\n")
         return BotResponse(HebrewDate.today().hebrew_date_string())
 
     else:
