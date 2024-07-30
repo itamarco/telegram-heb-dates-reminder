@@ -27,9 +27,7 @@ def parse_with_context(message):
 @bot.message_handler(func=lambda message: True)
 def parse_with_context(message):
     user_id = chat_id = message.chat.id
-    print(f"chat_id={user_id}")
     response = parse_freetext_input(user_id, message.text)
-    print(response)
     if response.items_display:
         heb_date_bot.send_inline_buttons(chat_id, response.text,
                                          items_display=response.items_display,
