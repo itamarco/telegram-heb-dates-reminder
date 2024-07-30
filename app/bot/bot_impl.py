@@ -37,6 +37,7 @@ class BotImpl:
         self.bot.send_message(chat_id, TEXTS.WELCOME, reply_markup=keyboard)
 
     def send_msg(self, chat_id, text):
+        print(f"send msg: {chat_id} {text}\n")
         self.bot.send_message(chat_id, text)
 
     def send_inline_buttons(self, chat_id, title, items_display: List[str], items_callback_data: List[str],
