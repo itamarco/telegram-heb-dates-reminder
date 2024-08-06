@@ -10,6 +10,8 @@ from operations import trigger_reminders
 from bot.telegram_bot import heb_date_bot
 from fastapi import APIRouter
 
+from user_flow import parse_freetext_input
+
 DOMAIN = os.environ.get("HOST")
 router = APIRouter()
 
@@ -61,7 +63,8 @@ def process_webhook(update: dict):
     chat_id = message.get("chat", {}).get("id")
     text = message.get("text", "").lower()
 
-    heb_date_bot.send_msg(chat_id, text)
+    bot_response = parse_freetext_input(chat_id, text)
+    heb_date_bot.send_msg(chat_id, bot_response.text)
 
 @router.get("/remove-webhook")
 def remove_webhook():
