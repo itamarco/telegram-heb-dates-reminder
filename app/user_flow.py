@@ -60,14 +60,14 @@ def parse_freetext_input(user_id: int, text: str) -> BotResponse:
         del _context[user_id]
         return BotResponse(f"{TEXTS.REMINDER_ADDED.value}")
 
-    elif text == OP.LIST_REMINDERS.value:
+    elif text == OP.LIST_REMINDERS.value or text == OP.REMINDERS_COMMAND.value:
         reminders = reminder_dao.find_by_user(user_id)
         response_lines = [
             pretty_print_reminder(reminder) for reminder in reminders
         ]
         return BotResponse("\n".join(response_lines) + "\n")
 
-    elif text == OP.LIST_EVENTS.value:
+    elif text == OP.LIST_EVENTS.value or text == OP.EVENTS_COMMAND.value:
         _events = reminder_dao.get_events(user_id)
         events = []
         for _event in _events:
@@ -89,7 +89,7 @@ def parse_freetext_input(user_id: int, text: str) -> BotResponse:
             for event in events
         ]))
 
-    elif text == OP.DELETE_EVENT.value:
+    elif text == OP.DELETE_EVENT.value or text == OP.DELETE_COMMAND.value:
         event_titles = get_event_titles(user_id)
         response = BotResponse(TEXTS.CLICK_EVENT_TO_DELETE)
         response.add_inline_items(
@@ -100,10 +100,10 @@ def parse_freetext_input(user_id: int, text: str) -> BotResponse:
 
         return response
 
-    elif text == OP.INSTRUCTIONS.value:
+    elif text == OP.INSTRUCTIONS.value or text == OP.START_COMMAND.value:
         return BotResponse(TEXTS.INSTRUCTIONS)
 
-    elif text == OP.TODAY.value:
+    elif text == OP.TODAY.value or text == OP.TODAY_COMMAND.value:
         return BotResponse(HebrewDate.today().hebrew_date_string())
 
     else:

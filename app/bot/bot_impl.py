@@ -19,3 +19,16 @@ class BotImpl:
         }
         requests.get(url, params=params)
 
+    def set_commands(self):
+        url = f"{TELEGRAM_API_BASE_URL}/setMyCommands"
+        payload = {
+            "commands": [
+                {"command": "start", "description": "Get instructions"},
+                {"command": "events", "description": "Events list"},
+                {"command": "reminders", "description": "Reminders list"},
+                {"command": "delete", "description": "Delete event"},
+                {"command": "today", "description": "Today's date"}
+            ]
+        }
+
+        requests.post(url, json=payload)

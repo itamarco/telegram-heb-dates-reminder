@@ -19,6 +19,11 @@ class TEXT_FORMATS(str, Enum):
 
 
 class OP(str, Enum):
+    START_COMMAND = "/start"
+    EVENTS_COMMAND = "/events"
+    REMINDERS_COMMAND = "/reminders"
+    DELETE_COMMAND = "/delete"
+    TODAY_COMMAND = "/today"
     INSTRUCTIONS = "הוראות"
     LIST_EVENTS = "רשימת אירועים"
     LIST_REMINDERS = "רשימת תזכורות"
