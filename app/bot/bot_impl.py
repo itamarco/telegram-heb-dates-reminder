@@ -7,13 +7,14 @@ from models.enums import OP, TEXT_FORMATS, TEXTS
 from user_flow import parse_freetext_input
 
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
+TELEGRAM_API_BASE_URL = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
 
 callback_action_delimiter = "::"
 
 
 class BotImpl:
     def __init__(self):
-        self.bot = telebot.TeleBot(TELEGRAM_TOKEN, parse_mode=None)
+        self.bot = None
 
     def get_bot(self):
         return self.bot
@@ -37,7 +38,12 @@ class BotImpl:
         self.bot.send_message(chat_id, TEXTS.WELCOME, reply_markup=keyboard)
 
     def send_msg(self, chat_id, text):
-        self.bot.send_message(chat_id, text)
+        url = f"{TELEGRAM_API_BASE_URL}/sendMessage"
+        params = {
+            "chat_id": chat_id,
+            "text": text
+        }
+        requests.get(url, params=params)
 
     def send_inline_buttons(self, chat_id, title, items_display: List[str], items_callback_data: List[str],
                             action: str = None):

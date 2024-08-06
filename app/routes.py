@@ -57,12 +57,11 @@ async def trigger_reminders_by_date(_date: str):
 
 @router.post(f'/telegram-hook')
 def process_webhook(update: dict):
-    if update:
-        update = telebot.types.Update.de_json(update)
-        heb_date_bot.get_bot().process_new_updates([update])
-    else:
-        return
+    message = update.get("message", {})
+    chat_id = message.get("chat", {}).get("id")
+    text = message.get("text", "").lower()
 
+    heb_date_bot.send_msg(chat_id, text)
 
 @router.get("/remove-webhook")
 def remove_webhook():
