@@ -7,7 +7,7 @@ from models.enums import OP, TEXT_FORMATS, TEXTS
 from user_flow import parse_freetext_input
 
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
-TELEGRAM_API_BASE_URL = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
+TELEGRAM_API_BASE_URL = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
 
 callback_action_delimiter = "::"
 
