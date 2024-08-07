@@ -1,4 +1,7 @@
 import logging
+from dotenv import load_dotenv
+
+load_dotenv("../.env.local")
 from threading import Thread
 import uvicorn
 from bot.telegram_bot import heb_date_bot

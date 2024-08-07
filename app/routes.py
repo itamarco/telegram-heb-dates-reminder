@@ -5,7 +5,7 @@ from datetime import date
 import telebot
 
 from custom_logger import logger
-from app.db import reminder_dao
+from db import reminder_dao
 from operations import trigger_reminders
 from bot.telegram_bot import heb_date_bot
 from fastapi import APIRouter
@@ -59,12 +59,7 @@ async def trigger_reminders_by_date(_date: str):
 
 @router.post(f'/telegram-hook')
 def process_webhook(update: dict):
-    message = update.get("message", {})
-    chat_id = message.get("chat", {}).get("id")
-    text = message.get("text", "").lower()
-
-    bot_response = parse_freetext_input(chat_id, text)
-    heb_date_bot.send_msg(chat_id, bot_response.text)
+    heb_date_bot.process_update(update)
 
 
 @router.get("/remove-webhook")
@@ -77,7 +72,7 @@ def remove_webhook():
 @router.get("/set-webhook")
 def set_webhook():
     webhook = f"{DOMAIN}/telegram-hook"
-    logger.info("setting telegram webhook: %s", webhook)
+    logger.info(f"setting telegram webhook: {webhook}")
     heb_date_bot.set_webhook(webhook)
 
 
