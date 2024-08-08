@@ -6,6 +6,7 @@ from typing import Dict
 
 from pyluach.dates import HebrewDate
 
+
 from date_utils import heb_date_str_to_hebrew_date, date_parts_to_date
 from db import reminder_dao
 from models.bot_response import BotResponse
@@ -90,15 +91,16 @@ def parse_freetext_input(user_id: int, text: str) -> BotResponse:
         ]))
 
     elif text == OP.DELETE_EVENT.value or text == OP.DELETE_COMMAND.value:
+        from bot.bot_impl import callback_action_delimiter
         event_titles = get_event_titles(user_id)
-        response = BotResponse(TEXTS.CLICK_EVENT_TO_DELETE)
-        response.add_inline_items(
-            action="delete",
-            items_display=event_titles,
-            items_callback_data=event_titles
+        inline_buttons = [
+            (title, f"{CALLBACK_ACTION.DELETE.value}{callback_action_delimiter}{title}")
+            for title in event_titles
+        ]
+        return BotResponse(
+            TEXTS.CLICK_EVENT_TO_DELETE,
+            inline_buttons=inline_buttons
         )
-
-        return response
 
     elif text == OP.INSTRUCTIONS.value or text == OP.START_COMMAND.value:
         return BotResponse(TEXTS.INSTRUCTIONS)
@@ -110,7 +112,7 @@ def parse_freetext_input(user_id: int, text: str) -> BotResponse:
         return BotResponse(TEXTS.FLOW_ERROR.value)
 
 
-def handle_callback_actions(user_id, action, data):
-    if action == CALLBACK_ACTION.DELETE.value:
-        reminder_dao.delete_by_userid_description(user_id, data)
-        return BotResponse(TEXT_FORMATS.EVENT_DELETED.format(title=data))
+def handle_callback_actions(user_id, op, info):
+    if op == CALLBACK_ACTION.DELETE.value:
+        reminder_dao.delete_by_userid_description(user_id, info)
+        return BotResponse(TEXT_FORMATS.EVENT_DELETED.format(title=info))

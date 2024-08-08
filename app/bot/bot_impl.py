@@ -1,6 +1,5 @@
 import json
 import os
-from typing import List
 
 import requests
 
@@ -26,9 +25,8 @@ class BotImpl:
         requests.post(url, json=payload)
 
     def to_online_keyboard(self, inline_buttons: list[tuple[str, str]]) -> json:
-        keyboard = [
-            [dict(text=btn_text, callback_data=btn_data) for btn_text, btn_data in inline_buttons]
-        ]
+        keyboard = [[dict(text=btn_text, callback_data=btn_data)] for btn_text, btn_data in inline_buttons]
+
         return json.dumps({"inline_keyboard": keyboard})
 
     def set_commands(self):
@@ -49,9 +47,9 @@ class BotImpl:
         url = f"{TELEGRAM_API_BASE_URL}/deleteWebhook"
         requests.get(url)
 
-    def set_webhook(self):
+    def set_webhook(self, webhook):
         url = f"{TELEGRAM_API_BASE_URL}/setWebhook"
-        payload = {"url": os.environ.get('DOMAIN') + "/telegram-hook"}
+        payload = {"url": webhook}
         requests.post(url, json=payload)
 
     def polling(self):
@@ -72,7 +70,6 @@ class BotImpl:
             chat_id = message.get("chat", {}).get("id")
             text = message.get("text", "").lower()
             bot_response = parse_freetext_input(chat_id, text)
-            bot_response = BotResponse("בחר משו בחייך", [("del", "del1"), ("reply", "reply1")])
             self.send_msg(chat_id, bot_response)
 
         elif 'callback_query' in update:
@@ -80,8 +77,9 @@ class BotImpl:
             message_id = callback_query.get("message", {}).get("message_id")
             chat_id = callback_query.get("from", {}).get("id")
             data = callback_query.get("data")
-            bot_response = handle_callback_actions(chat_id, data, data)
-            bot_response = BotResponse("HaHa!")
+
+            [op, info] = data.split(callback_action_delimiter)
+            bot_response = handle_callback_actions(chat_id, op, info)
             self.edit_msg(chat_id, message_id, bot_response)
 
     def edit_msg(self, chat_id, message_id, bot_response: BotResponse):

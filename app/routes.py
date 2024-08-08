@@ -66,14 +66,16 @@ def process_webhook(update: dict):
 def remove_webhook():
     logger.warning("Telegram webhook unset!")
     heb_date_bot.unset_webhook()
+    return {"status": "success"}
 
 
 # Set webhook
 @router.get("/set-webhook")
 def set_webhook():
-    webhook = f"{DOMAIN}/telegram-hook"
-    logger.info(f"setting telegram webhook: {webhook}")
-    heb_date_bot.set_webhook(webhook)
+    url = f"{DOMAIN}/telegram-hook"
+    logger.info(f"setting telegram webhook: {url}")
+    heb_date_bot.set_webhook(url)
+    return {"status": "success"}
 
 
 @router.get("/set-commands")
