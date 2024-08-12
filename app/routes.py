@@ -49,7 +49,7 @@ async def trigger_reminders_by_date(_date: str):
         total_triggered_reminders = trigger_reminders(reminder_date)
         return {"status": f"Total reminders: {total_triggered_reminders}"}
     except Exception as e:
-        logger.exception("Failed to trigger reminders")
+        logger.error(f"Failed to trigger reminders: {e}")
         return {"status": f"Failure {e}"}
 
 

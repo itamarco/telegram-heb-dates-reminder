@@ -1,15 +1,10 @@
-import collections
-from email.policy import default
 from typing import List
 
-from sqlalchemy import create_engine, Column, Integer, String, Date, Boolean, text
+from sqlalchemy import Column, Integer, String, Date, Boolean, text
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-# Initialize the database
-engine = create_engine('sqlite:///reminders.db')
-Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
 
