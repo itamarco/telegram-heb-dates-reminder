@@ -4,6 +4,7 @@ from datetime import date
 from typing import Dict
 
 from db import reminder_dao
+from models.bot_response import BotResponse
 from models.context import DateTuple
 from models.enums import TEXT_FORMATS
 from models.reminder import Reminder
@@ -50,13 +51,13 @@ def trigger_reminders(reminder_date: date = date.today()) -> int:
     return len(notifications)
 
 
-def send_notifications(notifications_dict: Dict[str, Reminder]):
+def send_notifications(notifications_dict: Dict[str, list[Reminder]]):
     from bot.telegram_bot import heb_date_bot  # refactor
     for chat_id in notifications_dict.keys():
         for reminder in notifications_dict.get(chat_id):
-            heb_date_bot.send_msg(chat_id,
-                                  TEXT_FORMATS.EVENT_IS_COMING.format(days=reminder.reminder_days,
-                                                                      event=reminder.description))
+            bot_response = BotResponse(TEXT_FORMATS.EVENT_IS_COMING.format(days=reminder.reminder_days,
+                                                                           event=reminder.description))
+            heb_date_bot.send_msg(chat_id, bot_response)
 
 
 def add_reminder(user_id, date_tuple: DateTuple, description, reminder_days):
