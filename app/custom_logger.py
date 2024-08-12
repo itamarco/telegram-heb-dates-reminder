@@ -1,4 +1,5 @@
 import sys
+import traceback
 
 
 class CustomLogger:
@@ -32,6 +33,10 @@ class CustomLogger:
     def critical(self, message):
         self._log('CRITICAL', message)
 
+    def exception(self, message):
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        formatted_traceback = ''.join(traceback.format_exception(exc_type, exc_value, exc_traceback))
+        self._log('ERROR', f"{message}\n{formatted_traceback}")
 
 # Create a global logger instance
 logger = CustomLogger()
