@@ -45,7 +45,10 @@ def heb_date_str_to_hebrew_date(date_str: str) -> HebrewDate:
     return HebrewDate(year, month, day)
 
 
-def date_parts_to_date(day, month, year=None):
-    heb_year = year or HebrewDate.today().year
-    logger.info(f"converting date parts to hebrew date: year={year}, month={month}, day={day}")
-    return HebrewDate(heb_year, month, day)
+def date_parts_to_date_str(day, month, year=None):
+    heb_year = year or 5784  # 5784 is a leap year
+    base_date = HebrewDate(heb_year, month, day)
+    if year is not None:
+        return base_date.hebrew_date_string()
+    else:
+        return f"{base_date.hebrew_day()} {base_date.month_name()}"

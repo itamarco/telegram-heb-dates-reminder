@@ -7,7 +7,7 @@ from typing import Dict
 from pyluach.dates import HebrewDate
 
 
-from date_utils import heb_date_str_to_hebrew_date, date_parts_to_date
+from date_utils import heb_date_str_to_hebrew_date, date_parts_to_date_str
 from db import reminder_dao
 from models.bot_response import BotResponse
 from models.context import Context
@@ -72,10 +72,10 @@ def parse_freetext_input(user_id: int, text: str) -> BotResponse:
         _events = reminder_dao.get_events(user_id)
         events = []
         for _event in _events:
-            heb_date = date_parts_to_date(_event.event_day, _event.event_month, _event.event_year)
+            heb_date = date_parts_to_date_str(_event.event_day, _event.event_month, _event.event_year)
             event = {
                 'description': _event.description,
-                'heb_date': heb_date.hebrew_date_string(),
+                'heb_date': heb_date,
                 'reminder_days_list': _event.reminder_days_list
             }
             events.append(event)
