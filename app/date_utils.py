@@ -51,4 +51,4 @@ def date_parts_to_date_str(day, month, year=None):
     if year is not None:
         return base_date.hebrew_date_string()
     else:
-        return f"{base_date.hebrew_day()} {base_date.month_name()}"
+        return f"{base_date.hebrew_day()} {base_date.month_name(hebrew=True)}"
