@@ -1,6 +1,8 @@
 # Custom mapping function for Hebrew alphabet characters
 from pyluach.dates import HebrewDate
 
+from custom_logger import logger
+
 
 # Custom mapping function for Hebrew alphabet characters
 def gematria(hebrew_string):
@@ -45,4 +47,5 @@ def heb_date_str_to_hebrew_date(date_str: str) -> HebrewDate:
 
 def date_parts_to_date(day, month, year=None):
     heb_year = year or HebrewDate.today().year
+    logger.info(f"converting date parts to hebrew date: year={year}, month={month}, day={day}")
     return HebrewDate(heb_year, month, day)
